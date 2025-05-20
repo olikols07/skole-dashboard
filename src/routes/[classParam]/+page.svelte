@@ -1,12 +1,19 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { page } from '$app/state';
 
-    let schoolBreaks: any[] = []
+    let schoolBreaks: any[] = $state([])
 
-    let dateString: string = "";
-    let timeString: string = "";
+    let dateString: string = $state("");
 
-    let IsSchoolTime: boolean = false;
+    let timeString: string = $state("");
+
+    let classParam = page.params.classParam
+
+    let IsSchoolTime: boolean = $state(false);
+
+
+    
     function checkBreakTime(time: Date, breakSchedule: Array<any>) {
         const now = time
         const currentHour = now.getHours();
@@ -70,6 +77,7 @@
     }
     
     onMount(async ()=>{
+        
         fetch("http://ubuntu-2210-oliver:1880/schedule")
         .then((response) => response.json())
         .then((data) => {
@@ -84,6 +92,7 @@
 </script>
 <div class="w-screen h-screen bg-stone-900 text-slate-300 flex flex-col">
     <div class="basis-7/8 flex flex-col justify-center items-center w-full">
+            <span>Klasse: {classParam}!! Velkommen!!!</span>
         <div class="w-fit h-fit">
             <h1 class="font-bold text-[10rem] leading-1rem text-center w-fit">
                 {timeString}
